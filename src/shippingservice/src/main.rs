@@ -95,7 +95,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     info!("OTel pipeline created");
     let port = env::var("SHIPPING_SERVICE_PORT").expect("$SHIPPING_SERVICE_PORT is not set");
     let addr = format!("0.0.0.0:{}", port).parse()?;
-    info!("Xlistening on {}", addr);
+    info!("listening on {}", addr);
     let shipper = ShippingServer::default();
 
     Server::builder()
