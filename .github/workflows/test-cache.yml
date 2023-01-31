@@ -105,6 +105,13 @@ jobs:
           config-inline: |
             [worker.oci]
               max-parallelism = 2
+  
+      - name: Configure sccache
+        uses: actions/github-script@v6
+        with:
+          script: |
+            core.exportVariable('ACTIONS_CACHE_URL', process.env.ACTIONS_CACHE_URL || '');
+            core.exportVariable('ACTIONS_RUNTIME_TOKEN', process.env.ACTIONS_RUNTIME_TOKEN || '');
 
       - name: Matrix Build and push demo images
         uses: docker/build-push-action@v3.3.0

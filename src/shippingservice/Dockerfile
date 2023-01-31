@@ -1,13 +1,14 @@
 # build context will only work from ../../docker-compose.yml
 FROM rust:1.61-alpine as builder
 RUN apk update
-RUN apk add --no-cache ca-certificates git protobuf-dev protoc cmake clang clang-dev make gcc g++ libc-dev linux-headers
+RUN apk add --no-cache ca-certificates git protobuf-dev protoc cmake clang clang-dev make gcc g++ libc-dev linux-headers sccache
 WORKDIR /app/
 
 # build app
 COPY /src/shippingservice/ /app/
 COPY /pb/ /app/proto/
 
+ENV SCCACHE_GHA_ENABLED=on
 RUN cargo build -r --features="dockerproto"
 
 FROM alpine as release
