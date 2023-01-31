@@ -9,6 +9,7 @@ COPY /src/shippingservice/ /app/
 COPY /pb/ /app/proto/
 
 ENV SCCACHE_GHA_ENABLED=on
+ENV RUSTC_WRAPPER=/usr/bin/sccache
 RUN cargo build -r --features="dockerproto"
 
 FROM alpine as release
