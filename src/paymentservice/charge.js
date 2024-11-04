@@ -9,6 +9,7 @@ const { FlagdProvider} = require('@openfeature/flagd-provider');
 const flagProvider = new FlagdProvider();
 
 const logger = require('./logger');
+const runtimeMetrics = require('./runtimeMetrics');
 const tracer = trace.getTracer('paymentservice');
 const meter = metrics.getMeter('paymentservice');
 const transactionsCounter = meter.createCounter('app.payment.transactions')
@@ -64,5 +65,8 @@ module.exports.charge = async request => {
   const { units, nanos, currencyCode } = request.amount;
   logger.info({transactionId, cardType, lastFourDigits, amount: { units, nanos, currencyCode }}, "Transaction complete.");
   transactionsCounter.add(1, {"app.payment.currency": currencyCode})
+
+  runtimeMetrics.setupRuntimeMetrics();
+
   return { transactionId }
 }

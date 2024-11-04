@@ -8,11 +8,33 @@
 ## Note: the spanmetrics exporter must be included in the exporters array
 ## if overriding the traces pipeline.
 ##
-#  exporters:
-#    otlphttp/example:
-#      endpoint: <your-endpoint-url>
-#
-#  service:
-#    pipelines:
-#      traces:
-#        exporters: [spanmetrics, otlphttp/example]
+processors:
+  resource:
+    attributes:
+      - key: service.instance.id
+        value: otel-demo
+        action: upsert
+
+exporters:
+  otlp/instana:
+    endpoint:
+    headers:
+      x-instana-key:
+    tls:
+      insecure: true
+
+service:
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [transform, batch, resource]
+      exporters: [otlp, debug, spanmetrics, otlp/instana]
+    metrics:
+      receivers: [otlp, spanmetrics]
+      processors: [batch, resource]
+      exporters: [otlphttp/prometheus, debug, otlp/instana]
+    logs:
+      receivers: [otlp]
+      processors: [batch, resource]
+      exporters: [opensearch, debug]
+

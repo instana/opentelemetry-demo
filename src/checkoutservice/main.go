@@ -10,9 +10,12 @@ import (
 	"net"
 	"net/http"
 	"os"
+	goruntime "runtime"
 	"strconv"
 	"sync"
 	"time"
+
+	"go.opentelemetry.io/otel/metric"
 
 	"go.opentelemetry.io/otel/attribute"
 	semconv "go.opentelemetry.io/otel/semconv/v1.24.0"
@@ -154,6 +157,11 @@ func main() {
 			log.Printf("Error shutting down meter provider: %v", err)
 		}
 	}()
+
+	meter := mp.Meter("checkout-service")
+	if err := recordRuntimeMetrics(meter); err != nil {
+		log.Fatal(err)
+	}
 
 	err := runtime.Start(runtime.WithMinimumReadMemStatsInterval(time.Second))
 	if err != nil {
@@ -608,4 +616,65 @@ func (cs *checkoutService) getIntFeatureFlag(ctx context.Context, featureFlagNam
 	)
 
 	return int(featureFlagValue)
+}
+
+func recordRuntimeMetrics(meter metric.Meter) error {
+	// Create metric instruments
+
+	heapUsed, err := meter.Float64ObservableGauge("go_heap_used")
+	if err != nil {
+		return err
+	}
+
+	gcPause, err := meter.Float64ObservableGauge("go_gc_pause")
+	if err != nil {
+		return err
+	}
+
+	goroutines, err := meter.Int64ObservableGauge("go_goroutines")
+	if err != nil {
+		return err
+	}
+
+	allocatedMemory, err := meter.Float64ObservableGauge("go_allocated_memory")
+	if err != nil {
+		return err
+	}
+
+	memoryObtainedFromSystem, err := meter.Float64ObservableGauge("go_memory_obtained_from_system")
+	if err != nil {
+		return err
+	}
+
+	heapObjects, err := meter.Int64ObservableGauge("go_heap_objects")
+	if err != nil {
+		return err
+	}
+
+	systemHeap, err := meter.Float64ObservableGauge("go_system_heap")
+	if err != nil {
+		return err
+	}
+
+	// Record the runtime stats periodically
+	if _, err := meter.RegisterCallback(
+		func(ctx context.Context, o metric.Observer) error {
+			var memStats goruntime.MemStats
+			goruntime.ReadMemStats(&memStats)
+
+			o.ObserveFloat64(heapUsed, float64(memStats.HeapAlloc)/1024/1024)           // Heap Used in MB
+			o.ObserveFloat64(gcPause, float64(memStats.PauseTotalNs)/1e6)               // GC Pause in ms
+			o.ObserveInt64(goroutines, int64(goruntime.NumGoroutine()))                 // Number of Goroutines
+			o.ObserveFloat64(allocatedMemory, float64(memStats.Alloc)/1024/1024)        // Allocated Memory in MB
+			o.ObserveFloat64(memoryObtainedFromSystem, float64(memStats.Sys)/1024/1024) // Memory Obtained From System in MB
+			o.ObserveInt64(heapObjects, int64(memStats.HeapObjects))                    // Heap Objects
+			o.ObserveFloat64(systemHeap, float64(memStats.HeapSys)/1024/1024)           // System Heap in MB
+			return nil
+		},
+		heapUsed, gcPause, goroutines, allocatedMemory, memoryObtainedFromSystem, heapObjects, systemHeap,
+	); err != nil {
+		return err
+	}
+
+	return nil
 }
