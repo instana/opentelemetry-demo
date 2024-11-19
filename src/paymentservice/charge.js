@@ -9,7 +9,7 @@ const { FlagdProvider} = require('@openfeature/flagd-provider');
 const flagProvider = new FlagdProvider();
 
 const logger = require('./logger');
-const runtimeMetrics = require('./runtimeMetrics');
+const runtimeMetrics = require('./runtime-metrics');
 const tracer = trace.getTracer('paymentservice');
 const meter = metrics.getMeter('paymentservice');
 const transactionsCounter = meter.createCounter('app.payment.transactions')
