@@ -37,3 +37,4 @@ service:
       receivers: [otlp]
       processors: [batch, resource]
       exporters: [opensearch, debug]
+
