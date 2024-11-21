@@ -12,6 +12,7 @@ const {containerDetector} = require('@opentelemetry/resource-detector-container'
 const {gcpDetector} = require('@opentelemetry/resource-detector-gcp')
 const {envDetector, hostDetector, osDetector, processDetector} = require('@opentelemetry/resources')
 const {RuntimeNodeInstrumentation} = require('@opentelemetry/instrumentation-runtime-node')
+const { setSdkInstance } = require('./runtime-metrics');
 
 const sdk = new opentelemetry.NodeSDK({
   traceExporter: new OTLPTraceExporter(),
@@ -43,3 +44,4 @@ const sdk = new opentelemetry.NodeSDK({
 })
 
 sdk.start();
+setSdkInstance(sdk);
