@@ -27,13 +27,13 @@ service:
   pipelines:
     traces:
       receivers: [otlp]
-      processors: [transform, batch, resource]
-      exporters: [otlp, debug, spanmetrics, otlp/instana]
+      processors: [batch, resource]
+      exporters: [debug, spanmetrics, otlp/instana]
     metrics:
       receivers: [otlp, spanmetrics]
       processors: [batch, resource]
-      exporters: [otlphttp/prometheus, debug, otlp/instana]
+      exporters: [debug, otlp/instana]
     logs:
       receivers: [otlp]
       processors: [batch, resource]
-      exporters: [opensearch, debug]
+      exporters: [debug, otlp/instana]
