@@ -11,8 +11,8 @@
 processors:
   resource:
     attributes:
-      - key: service.instance.id
-        value: otel-demo
+      - key: application.id
+        value: my-otel-demo
         action: upsert
 
 # Replace the INSTANA_ENDPOINT, more information:
