@@ -1,4 +1,5 @@
 <?php
+// SPDX-License-Identifier: Apache-2.0
 
 require '../otel/autoload.php';
 use OpenTelemetry\API\Trace\SpanKind;

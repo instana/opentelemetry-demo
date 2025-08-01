@@ -46,7 +46,7 @@
 #com.instana.plugin.process:
 #  processes:
 #    - 'sshd'
-#    - 'slapd'   
+#    - 'slapd'
 #  arguments:
 #    - '/opt/script.sh'
 
@@ -91,7 +91,7 @@
 #  monitor:
 #    - db: 0 # db number - defaults to 0 if absent
 #      key: 'logstash' # key of value, given as string
-#      type: 'list-length' # metric type. Currently only supports 'list-length' 
+#      type: 'list-length' # metric type. Currently only supports 'list-length'
 
 # RabbitMq
 #com.instana.plugin.rabbitmq:
@@ -142,11 +142,11 @@
 
 # PHP Tracing
 #com.instana.plugin.php:
-#  # Lightweight PHP Tracing. Requires the Instana Tracing extension. Enabled by default. 
+#  # Lightweight PHP Tracing. Requires the Instana Tracing extension. Enabled by default.
 #  tracing:
-#    # Enabling tracing will automatically download the Instana Tracing 
-#    # extension and enable it in your php.ini. If you are using preforked 
-#    # PHP workers, like PHP-FPM, you will need to restart them. Disabling 
+#    # Enabling tracing will automatically download the Instana Tracing
+#    # extension and enable it in your php.ini. If you are using preforked
+#    # PHP workers, like PHP-FPM, you will need to restart them. Disabling
 #    # tracing again will not remove the extension. It will only disable the
 #    # tracing sensor.
 #    enabled: true
