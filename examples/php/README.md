@@ -38,7 +38,7 @@ This will build and launch the following components:
 
 ## Running it
 
-Then, go to `http://localhost:8080` to set up Wordpress site. 
+Then, go to `http://localhost:8080` to set up Wordpress site.
 
 ## Visualize traces
 
