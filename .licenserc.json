@@ -53,6 +53,7 @@
         "src/recommendation/demo_pb2.py",
         "src/recommendation/demo_pb2_grpc.py",
         "src/frontend/protos/demo.ts",
-        "internal/tools/"
+        "internal/tools/",
+        "instana-examples/"
     ]
   }

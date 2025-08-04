@@ -1,0 +1,20 @@
+{
+    "name": "opentelemetry/wordpress-example",
+    "description": "An example of autoinstrumentation of wordpress with the official wordpress docker image",
+    "type": "project",
+    "require": {
+        "open-telemetry/exporter-otlp": "1.0.4",
+        "open-telemetry/opentelemetry-auto-psr15": "1.0.5",
+        "open-telemetry/opentelemetry-auto-psr18": "1.0.3",
+        "open-telemetry/opentelemetry-auto-wordpress": "0.0.15",
+        "open-telemetry/transport-grpc": "1.0.0",
+        "open-telemetry/sdk": "1.0.8",
+        "open-telemetry/opentelemetry-auto-curl": "0.0.2",
+        "php-http/guzzle7-adapter": "1.0.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
+}
