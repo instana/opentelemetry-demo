@@ -10,14 +10,6 @@ use OpenTelemetry\API\Trace\Propagation\TraceContextPropagator;
 use OpenTelemetry\Context\Context;
 use OpenTelemetry\SDK\Sdk;
 
-/*Sdk::builder()
-		->setTracerProvider(\OpenTelemetry\API\Globals::tracerProvider())
-		->setMeterProvider(\OpenTelemetry\API\Globals::MeterProvider())
-		->setLoggerProvider(\OpenTelemetry\API\Globals::LoggerProvider())
-		->setPropagator(TraceContextPropagator::getInstance())
-		->setAutoShutdown(true)
-		->buildAndRegisterGlobal();
- */
 // Get a tracer
 $tracerProvider = new TracerProvider(
     new SimpleSpanProcessor(
