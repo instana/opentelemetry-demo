@@ -14,7 +14,7 @@ A `docker-compose` installation running on your machine.
 
 ## Configure
 
-Create a `.env` file copied from `.env.templatei` file and update below values.
+Create a `.env` file copied from `.env.template` file and update below values.
 
 ```text
 agent_key=<agent secret key>
@@ -43,5 +43,36 @@ Then, go to `http://localhost:8080` to set up Wordpress site.
 ## Visualize traces
 
 The resulting traces in the Analyze view will look like this in Instana UI:
+Service Name is **php-wordpress-instana-otel-demo**
 
-Demo traces in the Analyze view
+![Demo traces in the Analyze view](images/traces.png)
+
+## Distributed Tracing test app
+
+This is an example of manual context propagation between services.
+
+This app constitutes of service1.php, service2.php and service3.php.
+The requests go from service1 to service2 and service2 to service3.
+It extracts context headers from root span(sdk.php) to child spans(service1, service2).
+
+**To run distributed app:**
+
+Exec in to the container and start the service1, service2 and service 3 as below:
+
+```sh
+php -S 0.0.0.0:8004 service1.php &
+php -S 0.0.0.0:8002 service2.php &
+php -S 0.0.0.0:8003 service3.php &
+```
+
+Trigger the call to service1 either by direct curl or php
+
+```sh
+curl http://localhost:8004/service1.php
+```
+
+OR
+
+```sh
+php sdk.php
+```

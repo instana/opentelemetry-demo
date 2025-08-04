@@ -11,10 +11,7 @@ services:
       - ./agent/com.instana.agent.main.sender.File.cfg:/opt/instana/agent/etc/instana/com.instana.agent.main.sender.File.cfg:ro
       # Mount the logs directly so we can directly access the span-*.log files to check the produced spans.
       - ./agent/logs:/opt/instana/agent/data/log
-    networks:
-      envoymesh:
-        aliases:
-          - instana-agent
+    network_mode: host
     environment:
       - INSTANA_AGENT_ENDPOINT=${agent_endpoint:-ingress-red-saas.instana.io}
       - INSTANA_AGENT_ENDPOINT_PORT=${agent_endpoint_port:-443}
