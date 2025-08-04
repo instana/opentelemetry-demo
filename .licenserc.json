@@ -5,6 +5,7 @@
     ],
     "**/*.php": [
       "<?php",
+      "// Copyright The OpenTelemetry Authors",
       "// SPDX-License-Identifier: Apache-2.0"
     ],
     "**/*.java": [
@@ -53,7 +54,6 @@
         "src/recommendation/demo_pb2_grpc.py",
         "src/frontend/protos/demo.ts",
         "internal/tools/",
-        "examples/php/agent/",
-        "examples/php/compose.yaml"
+        "instana-examples/"
     ]
   }
